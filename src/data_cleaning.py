@@ -70,7 +70,7 @@ def add_cols(df):
     right = df[["item_id", "store_id", "d", "sales"]].rename(columns={"d":"last"})
     last = "d"
 
-    remove = []
+    remove = ["last"]
     for day in range(28):
         df["last"] = df[last].apply(lambda x: x - 1)
         last = "last"
@@ -79,16 +79,19 @@ def add_cols(df):
         remove.append("sales_"+str(day))
     
     df["item_store_last_day_sales"] = df["sales_0"]
-    df.to_csv("test.csv")
+    #df.to_csv("test.csv")
     df["item_store_last_day_sales_filled"] = df["sales_0"].isnull().astype(int) # mark null days
     df["item_store_last_day_sales"] = df["item_store_last_day_sales"].fillna(value=df["item_store_last_day_sales"].mean(skipna=True)) # fill null days with mean
     
     for med in [7, 14, 21, 28]:
         cols = ["sales_"+str(i) for i in range(med)]
-        #print(df[cols].median())
-        df["item_store_L"+str(med)+"d_day_median_sales"] = df[cols].median(skipna=False)
-        df["item_store_L"+str(med)+"d_day_median_sales_filled"] = df[cols].median(skipna=False).isnull().astype(int)
+        df["item_store_L"+str(med)+"d_day_median_sales_filled"] = df[cols].isnull().any(axis=1).astype(int)
+        df["item_store_L"+str(med)+"d_day_median_sales"] = df[cols].median(axis="columns",skipna=False)
         #print(df.head())
+    
+    # trim rows with day < 30
+    df = df.drop(df[df.d < 30].index)
+    
 
     df.drop(columns = remove,inplace=True)
     #print(df.isnull().any())
@@ -108,15 +111,15 @@ print(csv_read("test.csv"))'''
 
 df = pd.read_csv("merged_df.csv")
 df.drop(columns=["event_name_2","event_type_2"], inplace=True)
-print(df.head())
-df = fill_nulls(df).head()
-print(df)
-print(df.dtypes)
+#print(df.head())
+df = fill_nulls(df)
+#print(df.dtypes)
 df = encode(df)
-print(df.dtypes)
+#print(df.dtypes)
 df = add_cols(df)
-print(df.dtypes)
-print(df.isnull().any())
-print(df.notnull().any())
+#print(df.dtypes)
+#print(df.isnull().any())
+#print(df.notnull().any())
+df.to_csv("test.csv")
 #print(df['sell_price'].isnull().sum())
 #print(df.groupby(["d","sell_price"]).count())
