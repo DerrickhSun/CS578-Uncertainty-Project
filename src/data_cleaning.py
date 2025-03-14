@@ -45,14 +45,21 @@ def fill_nulls(df):
             continue
 
         if col in categoricals:
-            df[[col]] = df[[col]].fillna(value="None")
+            df[[col]] = df[[col]].fillna(value=("no_"+col))
         elif col in ints:
             df[[col]] = df[[col]].fillna(value=df[[col]].mean())#adjust to calculate mean
     return df
 
 def encode(df):
     for en in encodeables:
-        df = pd.get_dummies(df.set_index())
+        print("cat:",en)
+        onehot = pd.get_dummies(df[en]).add_prefix(en+":")
+        print(onehot)
+        df = df.join(onehot)
+    df.drop(columns=encodeables,inplace=True)
+    return df
+
+
 
 
 # example method usage
@@ -67,5 +74,6 @@ print(df.head())
 df = fill_nulls(df).head()
 print(df)
 print(df.dtypes)
+print(encode(df).dtypes)
 #print(df['sell_price'].isnull().sum())
 #print(df.groupby(["d","sell_price"]).count())
