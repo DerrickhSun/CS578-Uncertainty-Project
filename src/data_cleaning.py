@@ -99,8 +99,47 @@ def add_cols(df):
 
     return df
 
-        
 
+def correlationMatrix(df):
+    # get columns for correlation matrix
+    # remove categorical/id data
+    x = ["Unnamed: 0", "id", "item_id", "store_id", "weekday", "date"]
+    # remove special cases
+    # all 0 or all 1
+    x.extend(["state_id:CA","cat_id:HOBBIES", "dept_id:HOBBIES_1", "item_store_last_day_sales_filled", "item_store_L7d_day_median_sales_filled", "item_store_L14d_day_median_sales_filled", "item_store_L21d_day_median_sales_filled", "item_store_L28d_day_median_sales_filled"])
+    print(x)
+    df_filtered = df.drop(columns=x)
+    corrMat = df_filtered.corr()
+    print(corrMat)
+    strongPos = []
+    mediumPos = []
+    weakPos = []
+    none = []
+    weakNeg = []
+    mediumNeg = []
+    strongNeg = []
+
+    for i in range(len(corrMat.columns)):
+        for j in range(i + 1, len(corrMat.columns)):
+            if (corrMat.iloc[i, j] > 0.7):
+                strongPos.append(f"{corrMat.columns[i]} + {corrMat.columns[j]}: {corrMat.iloc[i, j]}")
+            elif (corrMat.iloc[i, j] > 0.4):
+                mediumPos.append(f"{corrMat.columns[i]} + {corrMat.columns[j]}: {corrMat.iloc[i, j]}")
+            elif (corrMat.iloc[i, j] > 0.2):
+                weakPos.append(f"{corrMat.columns[i]} + {corrMat.columns[j]}: {corrMat.iloc[i, j]}")
+            elif (corrMat.iloc[i, j] > -0.2):
+                none.append(f"{corrMat.columns[i]} + {corrMat.columns[j]}: {corrMat.iloc[i, j]}")
+            elif (corrMat.iloc[i, j] > -0.4):
+                weakNeg.append(f"{corrMat.columns[i]} + {corrMat.columns[j]}: {corrMat.iloc[i, j]}")
+            elif (corrMat.iloc[i, j] > -0.7):
+                mediumNeg.append(f"{corrMat.columns[i]} + {corrMat.columns[j]}: {corrMat.iloc[i, j]}")
+            else:
+                strongNeg.append(f"{corrMat.columns[i]} + {corrMat.columns[j]}: {corrMat.iloc[i, j]}")
+
+    print(strongPos + strongNeg)
+    # print(mediumPos + mediumNeg)
+    # print(weakPos + weakNeg)
+    #print(none)
 
 
 # example method usage
@@ -117,9 +156,12 @@ df = fill_nulls(df)
 df = encode(df)
 #print(df.dtypes)
 df = add_cols(df)
+
+correlationMatrix(df)
+
 #print(df.dtypes)
 #print(df.isnull().any())
 #print(df.notnull().any())
-df.to_csv("test.csv")
+# df.to_csv("test.csv")
 #print(df['sell_price'].isnull().sum())
 #print(df.groupby(["d","sell_price"]).count())
