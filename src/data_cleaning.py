@@ -85,7 +85,7 @@ def add_cols(df):
     df["item_store_last_day_sales"] = df["item_store_last_day_sales"].fillna(value=df["item_store_last_day_sales"].mean(skipna=True)) # fill null days with mean
     
     for med in [7, 14, 21, 28]:
-        cols = ["sales_"+str(i) for i in range(med)]
+        cols = ["sales_"+str(i) for i in range(med - 6, med)]
         df["item_store_L"+str(med)+"d_day_median_sales_filled"] = df[cols].isnull().any(axis=1).astype(int)
         df["item_store_L"+str(med)+"d_day_median_sales"] = df[cols].median(axis="columns",skipna=False)
         #print(df.head())
@@ -114,8 +114,6 @@ def correlationMatrix(df):
     corrMat = df_filtered.corr()
 
     corrMat.to_csv("correlation.csv")
-
-    print(corrMat)
 
     strongPos = []
     mediumPos = []
@@ -150,6 +148,8 @@ def correlationMatrix(df):
 def graphs(df):
     df.plot(x="sell_price", y="sales", kind="scatter", marker="o", title="Sales vs Price")
     df.plot(x="wday", y="sales", kind="scatter", marker="o", title="Sales vs Weekday")
+    df.plot(x="wday", y="sell_price", kind="scatter", marker="o", title="Price vs Weekday")
+
     df.plot(x="item_store_last_day_sales", y="sales", kind="scatter", marker="o", title="Sales vs Yesterday's Sales")
     df.plot(x="item_store_L7d_day_median_sales", y="sales", kind="scatter", marker="o", title="Sales vs Last Week's Sales")
     df.plot(x="item_store_L14d_day_median_sales", y="sales", kind="scatter", marker="o", title="Sales vs 2 Weeks Ago's Sales")
@@ -159,7 +159,7 @@ def graphs(df):
     df["log_sales"] = np.log(df["sales"] + 1)
     df["log_prices"] = np.log(df["sell_price"] + 1)
 
-    df.plot(x="log_prices", y="log_sales", kind="scatter", marker="o", title="Log Sales vs Log  Price")
+    df.plot(x="sell_price", y="log_sales", kind="scatter", marker="o", title="Log Sales vs Price")
     df.plot(x="item_store_last_day_sales", y="log_sales", kind="scatter", marker="o", title="Log Sales vs Yesterday's Sales")
 
 
@@ -195,8 +195,8 @@ graphs(df)
 
 normalize(df)
 
-df_train = df[(df["year"] < 2016) & (df["month"] < 6)]
-df_test = df[(df["year"] >= 2016) & (df["month"] >= 6)]
+df_train = df[(df["year"] < 2016)]
+df_test = df[(df["year"] >= 2016)]
 
 #print(df.dtypes)
 #print(df.isnull().any())
