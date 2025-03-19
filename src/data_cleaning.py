@@ -112,6 +112,8 @@ def correlationMatrix(df):
     df_filtered = df.drop(columns=x)
     corrMat = df_filtered.corr()
 
+    print(corrMat)
+
     strongPos = []
     mediumPos = []
     weakPos = []
@@ -183,9 +185,13 @@ graphs(df)
 
 normalize(df)
 
+df_train = df[df["year"] < 2016]
+df_test = df[df["year"] >= 2016]
+
 #print(df.dtypes)
 #print(df.isnull().any())
 #print(df.notnull().any())
-df.to_csv("test.csv")
+df_train.to_csv("training.csv")
+df_test.to_csv("testing.csv")
 #print(df['sell_price'].isnull().sum())
 #print(df.groupby(["d","sell_price"]).count())
