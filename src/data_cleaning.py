@@ -3,7 +3,7 @@ import os
 
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import numpy as np
 # csv_name is the name of the file you want to read
 def csv_read(csv_name):
     result = []
@@ -110,7 +110,10 @@ def correlationMatrix(df):
     x.extend(["state_id:CA","cat_id:HOBBIES", "dept_id:HOBBIES_1", "item_store_last_day_sales_filled", "item_store_L7d_day_median_sales_filled", "item_store_L14d_day_median_sales_filled", "item_store_L21d_day_median_sales_filled", "item_store_L28d_day_median_sales_filled"])
 
     df_filtered = df.drop(columns=x)
+
     corrMat = df_filtered.corr()
+
+    corrMat.to_csv("correlation.csv")
 
     print(corrMat)
 
@@ -153,6 +156,13 @@ def graphs(df):
     df.plot(x="item_store_L21d_day_median_sales", y="sales", kind="scatter", marker="o", title="Sales vs 3 Weeks Ago's Sales")
     df.plot(x="item_store_L28d_day_median_sales", y="sales", kind="scatter", marker="o", title="Sales vs Last Month's Sales")
 
+    df["log_sales"] = np.log(df["sales"] + 1)
+    df["log_prices"] = np.log(df["sell_price"] + 1)
+
+    df.plot(x="log_prices", y="log_sales", kind="scatter", marker="o", title="Log Sales vs Log  Price")
+    df.plot(x="item_store_last_day_sales", y="log_sales", kind="scatter", marker="o", title="Log Sales vs Yesterday's Sales")
+
+
     plt.show()
     eventSales = df[["event_name_1:Chanukah End","event_name_1:Christmas","event_name_1:Cinco De Mayo","event_name_1:ColumbusDay","event_name_1:Easter","event_name_1:Eid al-Fitr","event_name_1:EidAlAdha","event_name_1:Father's day","event_name_1:Halloween","event_name_1:IndependenceDay","event_name_1:LaborDay","event_name_1:LentStart","event_name_1:LentWeek2","event_name_1:MartinLutherKingDay","event_name_1:MemorialDay","event_name_1:Mother's day","event_name_1:NBAFinalsEnd","event_name_1:NBAFinalsStart","event_name_1:NewYear","event_name_1:OrthodoxChristmas","event_name_1:OrthodoxEaster","event_name_1:Pesach End","event_name_1:PresidentsDay","event_name_1:Purim End","event_name_1:Ramadan starts","event_name_1:StPatricksDay","event_name_1:SuperBowl","event_name_1:Thanksgiving","event_name_1:ValentinesDay","event_name_1:VeteransDay"]].multiply(df["sales"], axis=0).sum()
     eventSales.index = eventSales.index.str.replace("event_name_1:", "", regex=True)
@@ -185,8 +195,8 @@ graphs(df)
 
 normalize(df)
 
-df_train = df[df["year"] < 2016]
-df_test = df[df["year"] >= 2016]
+df_train = df[(df["year"] < 2016) & (df["month"] < 6)]
+df_test = df[(df["year"] >= 2016) & (df["month"] >= 6)]
 
 #print(df.dtypes)
 #print(df.isnull().any())
