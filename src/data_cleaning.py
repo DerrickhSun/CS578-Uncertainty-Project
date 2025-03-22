@@ -194,13 +194,15 @@ graphs(df)
 
 normalize(df)
 
-df_train = df[(df["year"] < 2016)]
-df_test = df[(df["year"] >= 2016)]
+df_train = df[(df["year"] < 2015) | df["month"] < 2]
+df_val = df[(df["year"] == 2015) & (df["month"] <= 4) & (df["month"] >= 2)]
+df_test = df[(df["year"] == 2015) & (df["month"] == 5)]
 
 #print(df.dtypes)
 #print(df.isnull().any())
 #print(df.notnull().any())
 df_train.to_csv("training.csv")
+df_val.to_csv("validation.csv")
 df_test.to_csv("testing.csv")
 #print(df['sell_price'].isnull().sum())
 #print(df.groupby(["d","sell_price"]).count())
