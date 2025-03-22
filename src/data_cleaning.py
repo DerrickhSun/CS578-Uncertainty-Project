@@ -90,10 +90,9 @@ def add_cols(df):
         df["item_store_L"+str(med)+"d_day_median_sales"] = df[cols].median(axis="columns",skipna=False)
         #print(df.head())
     
-    # trim rows with day < 30
-    df = df.drop(df[df.d < 30].index)
+    # trim first 30 rows
+    df = df.drop(df.index[:30 * df["item_id"].nunique()])
     
-
     df.drop(columns = remove,inplace=True)
     #print(df.isnull().any())
     #print(df.head())
