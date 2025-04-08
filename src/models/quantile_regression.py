@@ -26,7 +26,7 @@ class quantile_loss(nn.Module):
         return torch.mean(torch.maximum(diff1, diff2))
 
 
-df = pd.read_csv("test.csv")
+df = pd.read_csv("training.csv")
 #print(df.dtypes)
 print(df.shape)
 
@@ -89,6 +89,13 @@ def train(model, optimizer, data, loss_funct, batches = 1000, batch_size = 2000)
             if i % 10 == 9:    # print every 10 mini-batches
                 print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss/10 :.5f}')
                 running_loss = 0.0
+
+def evaluate(model, data, loss_funct):
+    x = torch.from_numpy(data[features].values).float()
+    y = torch.from_numpy(data["sales"].values).float()
+    pred = model(x)
+    return loss_funct(pred, y)
+
     
 
 '''model = quantile_regression()
@@ -111,8 +118,12 @@ for i in range(1, 10, 1):
 
     
     train(model, optimizer, df, quantile_loss())
+    models.append(model)
     torch.save(model.state_dict(), "quantile_regression"+str(int(percentile*100))+"percentile")
     print("saved percentile regression " + str(percentile))
+
+for i in range(1, 10, 1):
+    prin
 
 
 
