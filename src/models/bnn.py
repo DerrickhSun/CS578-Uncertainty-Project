@@ -26,10 +26,10 @@ df = df.dropna()
 
 print("Number of entries: ", df.shape[0])
 
-hidden_units = [128, 64, 32]
+hidden_units = [256, 128, 64]
 learning_rate = 0.001
 
-scale = 10
+scale = 7
 
 def prior(kernel_size, bias_size, dtype=None):
     n = kernel_size + bias_size
@@ -50,7 +50,7 @@ def posterior(kernel_size, bias_size, dtype=None):
         tfp.layers.VariableLayer(2 * n, dtype=dtype),
         tfp.layers.DistributionLambda(lambda t: tfd.MultivariateNormalDiag(
             loc=t[..., :n],
-            scale_diag=1e-1 + tf.nn.softplus(tf.clip_by_value(t[..., n:], -10.0, 5.0))
+            scale_diag=1e-2 + tf.nn.softplus(tf.clip_by_value(t[..., n:], -10.0, 5.0))
         ))
     ])
 
@@ -236,7 +236,7 @@ def run_experiment(model, loss, X_train, Y_train, X_valid, Y_valid, X_test, Y_te
 
     print("Start training the model...")
     model.fit(X_train, Y_train, epochs=num_epochs, batch_size=256, validation_data=(X_valid, Y_valid), callbacks=callbacks)
-    bnn_model.save_weights("128,64,32,rms,sigmoid_newnll6.h5")    
+    bnn_model.save_weights("256,128,64,rms,sigmoid_newnll.h5")    
     print("Model training finished.")
     
     _, rmse = model.evaluate(X_train, Y_train, verbose=0)
