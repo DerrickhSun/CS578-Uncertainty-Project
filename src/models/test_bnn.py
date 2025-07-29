@@ -79,7 +79,7 @@ def expected_calibration_error(confidence, y_true, y_pred):
     return ece
 
 
-df = pd.read_csv("training.csv")
+df = pd.read_csv("data/training.csv")
 df = df.dropna()
 
 x = ["sales", "sell_price", "item_store_last_day_sales", "item_store_L7d_day_median_sales", "item_store_L14d_day_median_sales", "item_store_L21d_day_median_sales", "item_store_L28d_day_median_sales"]
@@ -111,7 +111,7 @@ def create_model_inputs():
         )
     return inputs
 
-df_valid = pd.read_csv("validation.csv")
+df_valid = pd.read_csv("data/validation.csv")
 
 df_valid = df_valid.dropna()
 
@@ -119,7 +119,7 @@ df_valid[x] = (df_valid[x] - mean1) / std1
 
 y_valid = np.array(df_valid["sales"]).reshape(-1, 1)
 
-df_test = pd.read_csv("testing.csv")
+df_test = pd.read_csv("data/testing.csv")
 
 df_test = df_test.dropna()
 

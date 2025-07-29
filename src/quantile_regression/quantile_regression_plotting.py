@@ -4,7 +4,7 @@ from quantile_regression import quantile_regression
 import numpy as np
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("training.csv")
+df = pd.read_csv("data/training.csv")
 discarded = ["sales", "d", "Unnamed: 0", "Unnamed: 0.1", "id", "state_id:CA", "cat_id:HOBBIES"]
 features = [col for col in df.columns if col not in discarded]
 df["log_sales"] = np.log(df[['sales']] + 1)
@@ -85,7 +85,7 @@ model.load_state_dict(torch.load('nn_1000_5p', weights_only=True))
 #log_model.load_state_dict(torch.load('nn_1000_5p_log', weights_only=True))
 
 
-df = pd.read_csv("testing.csv")
+df = pd.read_csv("data/testing.csv")
 print(evaluate_MSE(model, df))
 print(df[["sales"]].std())
 print(df[["sales"]].max())

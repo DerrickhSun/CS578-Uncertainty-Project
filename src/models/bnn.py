@@ -21,7 +21,7 @@ num_epochs = 200
 
 tfd = tfp.distributions
 
-df = pd.read_csv("training.csv")
+df = pd.read_csv("data/training.csv")
 df = df.dropna()
 
 print("Number of entries: ", df.shape[0])
@@ -119,7 +119,7 @@ def extract_static_for_sequences(df, sequence_length):
 
     return np.array(statics).astype(np.float32)
 
-df_valid = pd.read_csv("validation.csv")
+df_valid = pd.read_csv("data/validation.csv")
 
 df_valid = df_valid.dropna()
 
@@ -127,7 +127,7 @@ df_valid[x] = (df_valid[x] - mean1) / std1
 
 y_valid = np.array(df_valid["sales"]).reshape(-1, 1)
 
-df_test = pd.read_csv("testing.csv")
+df_test = pd.read_csv("data/testing.csv")
 
 df_test = df_test.dropna()
 

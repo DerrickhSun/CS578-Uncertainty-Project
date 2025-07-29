@@ -48,7 +48,7 @@ class multi_quantile_loss(nn.Module):
             sum += torch.mean(torch.maximum(diff1, diff2))
         return sum/19
 
-df = pd.read_csv("training.csv")
+df = pd.read_csv("data/training.csv")
 #print(df.dtypes)
 
 features = ["item_id", "wday", "month", "year", "snap_CA", "sell_price", "event_name_1_filled", "event_type_1_filled", "sell_price_filled", 
@@ -181,12 +181,12 @@ if __name__ == "__main__":
     np.save("loss_array.npy", losses)
 
 
-    df_valid = pd.read_csv("validation.csv")
+    df_valid = pd.read_csv("data/validation.csv")
     print("validation loss:", evaluate(model, df_valid, multi_quantile_loss()), file=file1)
-    df_test = pd.read_csv("testing.csv")
+    df_test = pd.read_csv("data/testing.csv")
     print("testing loss:", evaluate(model, df_test, multi_quantile_loss()), file=file1)
 
-    df_train = pd.read_csv("training.csv")
+    df_train = pd.read_csv("data/training.csv")
     print("training MSE:", evaluate_MSE(model, df_train), file=file1)
     print("testing MSE:", evaluate_MSE(model, df_test), file=file1)
 
@@ -202,12 +202,12 @@ if __name__ == "__main__":
     np.save("loss_array_log.npy", losses)
 
 
-    df_valid = pd.read_csv("validation.csv")
+    df_valid = pd.read_csv("data/validation.csv")
     print("validation loss:", evaluate(model, df_valid, multi_quantile_loss()), file=file1)
-    df_test = pd.read_csv("testing.csv")
+    df_test = pd.read_csv("data/testing.csv")
     print("testing loss:", evaluate(model, df_test, multi_quantile_loss()), file=file1)
 
-    df_train = pd.read_csv("training.csv")
+    df_train = pd.read_csv("data/training.csv")
     print("training MSE:", evaluate_MSE(model, df_train), file=file1)
     print("testing MSE:", evaluate_MSE(model, df_test), file=file1)'''
     for i in range(5,100,5):

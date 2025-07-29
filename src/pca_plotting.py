@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 # Load data (replace with your data)
-iris = pd.read_csv("testing.csv")
+iris = pd.read_csv("data/testing.csv")
 
 features = ["item_id", "wday", "month", "year", "snap_CA", "sell_price", "event_name_1_filled", "event_type_1_filled", "sell_price_filled", 
             "dept_id:HOBBIES_1", "store_id:CA_1","store_id:CA_2","store_id:CA_3","store_id:CA_4","cat_id:HOBBIES", "state_id:CA", "event_name_1:Chanukah End", "event_name_1:Christmas", 

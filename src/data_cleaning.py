@@ -129,7 +129,7 @@ def correlationMatrix(df):
 
     corrMat = df_filtered.corr()
 
-    corrMat.to_csv("correlation.csv")
+    corrMat.to_csv("data/correlation.csv")
 
     strongPos = []
     mediumPos = []
@@ -193,8 +193,8 @@ def normalize(df):
 # example method usage
 '''get_path()
 test = [["name", "id"],["adam","1"],["eve","2"]]
-csv_write("test.csv",test)
-print(csv_read("test.csv"))'''
+csv_write("data/test.csv",test)
+print(csv_read("data/test.csv"))'''
 
 df = pd.read_csv("CS 578 datasets/merged_df.csv")
 df.drop(columns=early_drop, inplace=True)
@@ -205,7 +205,7 @@ df = encode(df)
 print("computing additional columns")
 df = add_cols(df)
 df.drop(columns=one_hot_encodeables,inplace=True)
-df.to_csv("test.csv")
+df.to_csv("data/test.csv")
 print("df prepared")
 
 # uncomment this for analysis
@@ -229,8 +229,8 @@ df_test = df_test.drop(columns = late_drop)
 
 
 
-df_train.to_csv("training.csv")
-df_val.to_csv("validation.csv")
-df_test.to_csv("testing.csv")
+df_train.to_csv("data/training.csv")
+df_val.to_csv("data/validation.csv")
+df_test.to_csv("data/testing.csv")
 #print(df['sell_price'].isnull().sum())
 #print(df.groupby(["d","sell_price"]).count())
