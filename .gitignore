@@ -1,5 +1,6 @@
 # Data files - ignore all contents but keep directory structure
 data/*
+results/*
 
 # Python
 __pycache__/
