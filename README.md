@@ -17,12 +17,12 @@ Afterwards, run the jupyter notebook preprocessing.ipynb to process the data. Th
 ### Bayesian Neural Network
 The Bayesian Neural Network leverages ELBO loss, using negative log likelihood to approximate both the mean data and the standard deviation. To run it:
 ```bash
-python src/models/bnn.py
+python src/bayesian/bnn.py
 ```
 This will both train and evaluate the model, displaying the evaluation metrics with plots.
 
 ### Monte Carlo Dropout
-Monte Carlo Dropout introduces randomness into the neural network itself, deliberately allowing the neural network to make sub-optimal predictions to account for uncertainty. It can be run through the jupyter notebook MCDropout.ipynb.
+Monte Carlo Dropout introduces randomness into the neural network itself, deliberately allowing the neural network to make sub-optimal predictions to account for uncertainty. It can be run through the jupyter notebook src/mc_dropout/MCDropout.ipynb.
 
 ### Quantile Regression
 Quantile Regression is an approach that asks the neural network to predict not only the mean, but varying percentiles. To run it:
