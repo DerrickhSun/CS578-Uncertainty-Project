@@ -1,4 +1,4 @@
-# CS578 UncertaintyProject
+# UncertaintyProject
 
 This repository contains code for uncertainty approximation with different approaches (Bayesian Neural Nets, Monte Carlo Dropout, Quantile Regression) using neural networks.
 
