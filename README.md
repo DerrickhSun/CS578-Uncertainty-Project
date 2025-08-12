@@ -1,10 +1,10 @@
-# CS578 UncertaintyProject
+# Uncertainty Project
 
 This repository contains code for uncertainty approximation with different approaches (Bayesian Neural Nets, Monte Carlo Dropout, Quantile Regression) using neural networks.
 
 We used public data from the University of Nicosia, though the focus of the data was on the US. It can be found [here](https://www.kaggle.com/competitions/m5-forecasting-uncertainty).
 
-Our final results can be found [here](https://github.com/DerrickhSun/CS578-Uncertainty-Project/blob/main/CS_578_Project.pdf).
+Our final results can be found [here](https://github.com/DerrickhSun/Uncertainty-Project/blob/main/Report.pdf).
 
 ## Getting Started
 
